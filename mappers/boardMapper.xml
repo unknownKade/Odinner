@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardMapper">
+ <!-- 게시판 정보 작성 -->
+ <insert id="insert" parameterType = "com.ko.eat.vo.BoardVO" useGeneratedKeys = "true" keyProperty = "bno">
+ <selectKey keyProperty = "bno" resultType = "int" order = "BEFORE">
+ 	SELECT SR_BOARD_SEQ.NEXTVAL FROM DUAL
+ </selectKey>
+ 
+   INSERT INTO SR_BOARD( BNO, TITLE, INGREDIENT, MENU, LEV, TIME, SERVING, TIP, WRITER,show)
+  VALUES( #{bno}, #{title}, #{ingredient}, #{menu}, #{lev}, #{time}, #{serving}, #{tip}, #{writer},1 )
+ </insert>
+<!-- 게시판 내용 작성 -->
+ <insert id = "contentInsert" parameterType = "com.ko.eat.vo.BoardVO">
+  INSERT ALL 
+	 <foreach collection = "content" item = "text" index= "index" >
+  	INTO  SR_CONTENT
+  	VALUES
+		  (#{bno}, #{text}, #{index},#{imgFileList})
+	</foreach>
+	SELECT * FROM dual
+ </insert>
+
+<!-- 추천기능 -->
+ 
+<select id="checkLike" parameterType="map" resultType="int">
+	select count(*) from SR_BOARDLIKE WHERE BNO = #{bno} AND USERID = #{userId}
+</select>
+
+<insert id="addLike" parameterType="map">
+	insert into SR_BOARDLIKE values(#{userId}, #{bno})
+</insert>
+
+<delete id="deleteLike" parameterType="map">
+	delete from SR_BOARDLIKE where BNO = #{bno} and USERID = #{userId}
+</delete>
+
+<select id="countLike" parameterType="int" resultType="int">
+	select count(*) from SR_BOARDLIKE where BNO = #{bno}
+</select>
+ 
+<select id= "searchFood" parameterType= "list" resultType= "com.ko.eat.vo.BoardVO" >
+SELECT b.bno, title, ingredient, menu, lev, time, serving, tip, writer, regdate, show, imgfile0 
+FROM sr_board b, sr_content bc WHERE b.bno = bc.bno and show = 1
+	<if test = "searchList != null">
+		AND 
+		<foreach collection = "searchList" item= "food" index= "index"  separator = " AND ">
+			ingredient LIKE '%'||#{food} ||'%'
+		</foreach>
+	</if>
+</select>
+  
+</mapper>
