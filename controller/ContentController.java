@@ -129,7 +129,7 @@ public class ContentController {
 	   
 	   @RequestMapping(value = "/search", method = RequestMethod.GET)
 	   public String search(Model model, @ModelAttribute SearchCriteria scri) throws Exception {
-	      logger.info("searchFood==========");          //SearchCriteria : �궡�슜�쑝濡� 寃��깋, �젣紐⑹쑝濡� 寃��깋 (寃��깋 湲곗�)
+	      logger.info("searchFood==========");
 	      model.addAttribute("search", service.searchFood(scri));
 		   
 	      return "board/search";
