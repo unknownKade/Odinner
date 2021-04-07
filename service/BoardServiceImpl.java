@@ -35,18 +35,13 @@ public class BoardServiceImpl implements BoardService{
    public List<BoardVO> list(SearchCriteria scri) throws Exception {
       return dao.list(scri);
    }
-   @Override
-   public List<BoardVO> listnew(SearchCriteria scri) throws Exception {
-	   return dao.listnew(scri);
-   }
-   @Override
-   public List<BoardVO> listold(SearchCriteria scri) throws Exception{
-	   return dao.listold(scri);
-   }
+	
+   //내 게시물 조회(마이페이지)
    @Override
    public List<BoardVO> mypagelist(MemberVO vo) throws Exception {
 	   return dao.mypagelist(vo);
    }
+  //내가 추천한 게시물 조회(마이페이지)
    @Override
    public List<BoardVO> listlike(SearchCriteria scri) throws Exception {
 	   return dao.listlike(scri);
@@ -75,15 +70,8 @@ public class BoardServiceImpl implements BoardService{
    public void delete(int bno) throws Exception {
       dao.delete(bno);
    }
-   @Override
-   public void deleteBLike(int bno) throws Exception {
-	   dao.deleteBLike(bno);
-   }
-   @Override
-   public void deleteBContent(int bno) throws Exception {
-	   dao.deleteBContent(bno);
-   }
-   
+	
+   //게시물 추천
    @Override
    public int checkLike(Map<String, Object> m) throws Exception {
    	return dao.checkLike(m);
