@@ -11,8 +11,8 @@ public interface BoardDAO {
 	
 	//게시글 작성
 	public void write(BoardVO boardvo) throws Exception;
-	
 	public void writeContent(BoardVO boardVO) throws Exception;
+	
 	//게시물 목록조회
 	public List<BoardVO> list(SearchCriteria scri) throws Exception;
 	public List<BoardVO> listnew(SearchCriteria scri) throws Exception;
